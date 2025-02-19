@@ -38,4 +38,4 @@ This directory contains the datasets and code for **Studies 3 and 4**, which inv
 
 
 ---
-For any questions, please contact the authors of the paper.
+For any questions or access to the additional files that have been added to gitignore due to their large size, please contact the authors of the paper.
