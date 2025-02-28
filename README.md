@@ -36,7 +36,7 @@ This directory contains the datasets and code for **Studies 3 and 4**, which inv
   - **`Transformer_models/`** – Implements the Longformer model, used as a Transformer model, complementary to the other classifiers used in Study 3.
 
 
-Refer to `environment.yml` for the required Python packages and their versions.
+Refer to `environment.yml` for the required Python packages and their versions. Installing all the requirements would take a short time (approximately 10 minutes). Similarly, running all the scripts and notebooks that demonstrate the findings in the paper would take a few minutes, with the exception of training the classifiers using various random seeds, which would take a few hours, as well as the featurization of the datasets for Study 1 which similarly would take a few hours.
 
 ---
 For any questions or access to the additional files that have been added to gitignore due to their large size, please contact the authors of the paper.
