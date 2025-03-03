@@ -1,0 +1,93 @@
+\documentclass[fleqn]{article}
+\usepackage{amsmath}
+\setlength{\mathindent}{0pt}
+
+\begin{document}
+
+The measurement model is given by:
+\begin{align*}
+&% latex table generated in R 4.4.2 by xtable 1.8-4 package
+% Mon Jan 27 11:09:36 2025
+\begin{bmatrix}{}
+  y1(t) \\ 
+  \end{bmatrix}
+ = % latex table generated in R 4.4.2 by xtable 1.8-4 package
+% Mon Jan 27 11:09:36 2025
+\begin{bmatrix}{}
+  1 & 0 \\ 
+  \end{bmatrix}
+% latex table generated in R 4.4.2 by xtable 1.8-4 package
+% Mon Jan 27 11:09:36 2025
+\begin{bmatrix}{}
+  Position(t) \\ 
+  Velocity(t) \\ 
+  \end{bmatrix}
++ \epsilon,\\&\epsilon\sim N\Big(% latex table generated in R 4.4.2 by xtable 1.8-4 package
+% Mon Jan 27 11:09:36 2025
+\begin{bmatrix}{}
+  0.00 \\ 
+  \end{bmatrix}
+,% latex table generated in R 4.4.2 by xtable 1.8-4 package
+% Mon Jan 27 11:09:36 2025
+\begin{bmatrix}{}
+  mnoise \\ 
+  \end{bmatrix}
+\Big)\end{align*}
+
+The dynamic model is given by:
+\begin{align*}
+&% latex table generated in R 4.4.2 by xtable 1.8-4 package
+% Mon Jan 27 11:09:36 2025
+\begin{bmatrix}{}
+  dPosition(t) \\ 
+  dVelocity(t) \\ 
+  \end{bmatrix}
+=(% latex table generated in R 4.4.2 by xtable 1.8-4 package
+% Mon Jan 27 11:09:36 2025
+\begin{bmatrix}{}
+  0 & 1 \\ 
+  spring & friction \\ 
+  \end{bmatrix}
+% latex table generated in R 4.4.2 by xtable 1.8-4 package
+% Mon Jan 27 11:09:36 2025
+\begin{bmatrix}{}
+  Position(t) \\ 
+  Velocity(t) \\ 
+  \end{bmatrix}
+)dt + dw(t),\\&dw(t) \sim N\Big(% latex table generated in R 4.4.2 by xtable 1.8-4 package
+% Mon Jan 27 11:09:36 2025
+\begin{bmatrix}{}
+  0.00 \\ 
+  0.00 \\ 
+  \end{bmatrix}
+,% latex table generated in R 4.4.2 by xtable 1.8-4 package
+% Mon Jan 27 11:09:36 2025
+\begin{bmatrix}{}
+  0 & 0 \\ 
+  0 & dnoise \\ 
+  \end{bmatrix}
+\Big)
+\end{align*}
+
+The initial condition of the dynamic model is given by:
+\begin{align*}
+% latex table generated in R 4.4.2 by xtable 1.8-4 package
+% Mon Jan 27 11:09:36 2025
+\begin{bmatrix}{}
+  Position(0) \\ 
+  Velocity(0) \\ 
+  \end{bmatrix}
+\sim N \Big(% latex table generated in R 4.4.2 by xtable 1.8-4 package
+% Mon Jan 27 11:09:36 2025
+\begin{bmatrix}{}
+  inipos \\ 
+  1 \\ 
+  \end{bmatrix}
+, % latex table generated in R 4.4.2 by xtable 1.8-4 package
+% Mon Jan 27 11:09:36 2025
+\begin{bmatrix}{}
+  1 & 0 \\ 
+  0 & 1 \\ 
+  \end{bmatrix}
+\Big)
+\end{align*}\end{document}

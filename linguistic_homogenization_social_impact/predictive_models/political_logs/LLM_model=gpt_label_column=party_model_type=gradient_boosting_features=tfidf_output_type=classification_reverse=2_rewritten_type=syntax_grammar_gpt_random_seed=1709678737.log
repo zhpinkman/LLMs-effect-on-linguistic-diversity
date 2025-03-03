@@ -1,0 +1,15 @@
+Frequency based accuracy baseline of the training set
+<<<<<<< HEAD:simple_models/political_logs/LLM_model=gemini_label_column=cohort_model_type=gradient_boosting_features=openai_output_type=classification_reverse=2_rewritten_type=rephrase_gemini_random_seed=1709672577.log
+Accuracy = 1.49
+best score:
+0.4882669804889841
+best score on test essays
+0.27130657482976667
+complete report
+-----REWRITTEN-----
+best score on rewritten essays
+0.24440444717212728
+--------------------
+=======
+Accuracy = 0.52
+>>>>>>> e37711aedce3a460b99c518ab5facc7e61fb0b3e:simple_models/political_logs/LLM_model=gpt_label_column=party_model_type=gradient_boosting_features=tfidf_output_type=classification_reverse=2_rewritten_type=syntax_grammar_gpt_random_seed=1709678737.log

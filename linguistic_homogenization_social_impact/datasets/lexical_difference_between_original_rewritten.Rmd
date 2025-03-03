@@ -1,0 +1,22 @@
+---
+title: "Difference between the Lexical Features of the text between the original version and the LLM-generated version"
+output: html_notebook
+---
+
+
+```{r}
+
+main_data = read.csv("all_lexical_stats.csv", header = TRUE, sep = ",")
+
+for (metric in c("# sentences", "Avg. Word Length")){
+  metric_data = main_data[main_data$metric == metric,]
+  metric_data = metric_data[metric_data$llm != "gemini",]
+  print("#################")
+  print(metric)
+  print(t.test(metric_data$original_value, metric_data$rewritten_value, paired = TRUE))
+  print(cohen.d(metric_data$original_value, metric_data$rewritten_value, paired = TRUE))
+  print("#################")
+
+}  
+
+```

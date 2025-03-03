@@ -1,0 +1,11 @@
+torchrun \
+    --nproc_per_node 2 main_llama.py \
+    --ckpt_dir ../../llama/llama-2-13b/ \
+    --tokenizer_path ../../llama/tokenizer.model \
+    --num_batches 1 \
+    --input_file "essays/essays_anon_full.csv" \
+    --output_dir "essays" \
+    --rewrite_type "syntax_grammar" \
+    --id_column "#AUTHID" \
+    --text_column "text" \
+    --dataset_name "essays"

@@ -1,0 +1,10 @@
+Frequency based accuracy baseline of the training set
+Accuracy = 0.5
+best score:
+0.5743257886865217
+best score on test essays
+0.5436337625178826
+complete report
+-----REWRITTEN-----
+best score on rewritten essays
+0.523076923076923

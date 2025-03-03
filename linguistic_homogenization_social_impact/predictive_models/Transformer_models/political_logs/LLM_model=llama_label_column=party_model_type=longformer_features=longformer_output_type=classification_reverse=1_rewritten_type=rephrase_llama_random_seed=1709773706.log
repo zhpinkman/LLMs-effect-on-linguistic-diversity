@@ -1,0 +1,10 @@
+Detected kernel version 3.10.0, which is below the recommended minimum of 5.5.0; this can cause the process to hang. It is recommended to upgrade the kernel to the minimum version or higher.
+best score:
+0.5704866562009419
+best score on test essays
+0.49698148979693657
+complete report
+-----REWRITTEN-----
+best score on rewritten essays
+0.3275789726068453
+--------------------

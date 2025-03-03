@@ -1,0 +1,39 @@
+---
+title: "The Differences Between Different Variables in the Bottom-Up Study"
+output: html_notebook
+---
+
+```{r}
+main_data <- read.csv("results_df.csv", header = TRUE, sep = ",")
+
+essays_data = main_data[main_data$dataset == "essays",]
+essays_model = lm(main_model_on_rewritten ~ model + feature + LLM_model + label + rewritten_type + main_model_on_org, data = essays_data)
+summary(essays_model)
+
+# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
+wassa_data = main_data[main_data$dataset == "wassa",]
+wassa_model = lm(main_model_on_rewritten ~ model + feature + LLM_model + label + rewritten_type + main_model_on_org, data = wassa_data)
+summary(wassa_model)
+
+# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
+facebook_data = main_data[main_data$dataset == "facebook",]
+facebook_model = lm(main_model_on_rewritten ~ model + feature + LLM_model + label + rewritten_type + main_model_on_org, data = facebook_data)
+summary(facebook_model)
+
+# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
+party_data = main_data[main_data$dataset == "party",]
+party_model = lm(main_model_on_rewritten ~ model + feature + LLM_model + rewritten_type + main_model_on_org, data = party_data)
+summary(party_model)
+
+
+# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
+gender_data = main_data[main_data$dataset == "gender",]
+gender_model = lm(main_model_on_rewritten ~ model + feature + LLM_model + rewritten_type + main_model_on_org, data = gender_data)
+summary(gender_model)
+
+
+# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
+cohort_data = main_data[main_data$dataset == "cohort",]
+cohort_model = lm(main_model_on_rewritten ~ model + feature + LLM_model + rewritten_type + main_model_on_org, data = cohort_data)
+summary(cohort_model)
+```

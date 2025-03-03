@@ -1,0 +1,56 @@
+---
+title: "stat_data_for_checking_changes_directions"
+output: html_notebook
+---
+
+
+```{r}
+# read the file stat_data_for_checking_changes_directions
+library(lsr)
+library(effsize)
+library(dplyr)
+
+main_data = read.csv("stat_data_for_checking_changes_directions.csv", header = TRUE, sep = ",")
+
+
+for (dataset in unique(main_data$dataset)){
+  print(dataset)
+  print("#################")
+  dataset_data = main_data[main_data$dataset == dataset,]
+  print(t.test(dataset_data$higher, dataset_data$lower, paired = TRUE))
+  print(cohen.d(dataset_data$higher, dataset_data$lower, paired = TRUE))
+  for (llm in unique(dataset_data$llm)){
+    print("-----------------")
+    print(dataset)
+    print(llm)
+    llm_data = dataset_data[dataset_data$llm == llm,]
+    print(t.test(llm_data$higher, llm_data$lower, paired = TRUE))
+    print(cohen.d(llm_data$higher, llm_data$lower, paired = TRUE))
+    print("-----------------")
+  }  
+}
+
+### ### ### ### ### ### ### ### ### ### Analysis for the Gender only  ### ### ### ### ### ### ### ### ### ###
+
+gender_data = main_data[main_data$dataset == "gender",]
+# filter out the llm that is llama
+gender_llm_data = gender_data %>% filter(llm != "llama")
+print(t.test(gender_llm_data$higher, gender_llm_data$lower, paired = TRUE))
+print(cohen.d(gender_llm_data$higher, gender_llm_data$lower, paired = TRUE))
+
+### ### ### ### ### ### ### ### ### ### Analysis per dimensions of the psych constructs  ### ### ### ### ### ### ### ### ### ###
+
+for (dataset in c("essays", "wassa", "facebook")) {
+  dataset_data = main_data[main_data$dataset == dataset,]
+  for (label in unique(dataset_data$label)) {
+    print("*****************")
+    print(dataset)
+    print(label)
+    label_data = dataset_data[dataset_data$label == label,]
+    print(t.test(label_data$higher, label_data$lower, paired = TRUE))
+    print(cohen.d(label_data$higher, label_data$lower, paired = TRUE))
+    print("*****************")
+  }
+}
+
+```

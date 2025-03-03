@@ -1,0 +1,31 @@
+---
+title: "Checking the Cochran's test for the differences between conditions when comparing the ratios in the results"
+output: html_notebook
+---
+
+
+```{r}
+
+library("rstatix")
+mydata = read.csv("file_to_do_cochran_qtest.csv")
+
+mydata$main_model_on_rewritten_significance <- factor(mydata$main_model_on_rewritten_significance, levels = c(1, 0), labels = c("success", "failure"))
+
+cochran_qtest(mydata, main_model_on_rewritten_significance ~ feature|id)
+
+pairwise_mcnemar_test(mydata, main_model_on_rewritten_significance ~ model|id)
+
+library(rcompanion)
+
+Matrix.1 = as.matrix(read.table(header=TRUE, row.names=1, text="
+SG       R.yes   R.no
+SG.yes     13          21
+SG.no     46         93
+"))
+
+mcnemar.test(Matrix.1)
+
+cohenG(Matrix.1)
+
+
+```
