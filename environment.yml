@@ -467,7 +467,7 @@ dependencies:
     - py2neo==2021.2.4
     - pyarrow==14.0.2
     - pyarrow-hotfix==0.6
-    - pyautogen==0.2.26
+    - ag2==0.2.26
     - pycparser==2.22
     - pycryptodome==3.20.0
     - pydantic-settings==2.2.1
