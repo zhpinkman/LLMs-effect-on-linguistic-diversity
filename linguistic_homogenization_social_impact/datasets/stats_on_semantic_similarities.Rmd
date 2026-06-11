@@ -1,0 +1,77 @@
+---
+title: "Statistical Analysis on the Semantic Similarity of the Original Texts and LLM-generated Texts"
+output: html_notebook
+---
+
+```{r}
+library(effsize)
+library(tidyverse)
+library(ggpubr)
+library(rstatix)
+
+main_data <- read.csv("similarities_dict_llms.csv", header = TRUE, sep = ",")
+
+
+# after the group by return the similarity for the prompt equal to SG
+SG_data = main_data %>% group_by(llm, id, dataset) %>% filter(prompt == 'SG') %>% select(similarity)
+R_data = main_data %>% group_by(llm, id, dataset) %>% filter(prompt == 'R') %>% select(similarity)
+
+agg_data = merge(SG_data, R_data, by = c("llm", "id", "dataset"), suffixes = c("_SG", "_R"))
+print(t.test(agg_data$similarity_SG, agg_data$similarity_R, paired = TRUE))
+print(cohen.d(agg_data$similarity_SG, agg_data$similarity_R, paired = TRUE))
+
+
+####################################################
+gpt_data = main_data %>% group_by(prompt, id, dataset) %>% filter(llm == 'gpt') %>% select(similarity)
+gemini_data = main_data %>% group_by(prompt, id, dataset) %>% filter(llm == 'gemini') %>% select(similarity)
+llama_data = main_data %>% group_by(prompt, id, dataset) %>% filter(llm == 'llama') %>% select(similarity)
+
+
+gpt_data$id = paste(gpt_data$id, gpt_data$dataset, sep = "_")
+gpt_data$id = paste(gpt_data$id, gpt_data$prompt, sep = "_")
+gpt_data = subset(gpt_data, select = -c(dataset, prompt))
+
+gemini_data$id = paste(gemini_data$id, gemini_data$dataset, sep = "_")
+gemini_data$id = paste(gemini_data$id, gemini_data$prompt, sep = "_")
+gemini_data = subset(gemini_data, select = -c(dataset, prompt))
+
+llama_data$id = paste(llama_data$id, llama_data$dataset, sep = "_")
+llama_data$id = paste(llama_data$id, llama_data$prompt, sep = "_")
+llama_data = subset(llama_data, select = -c(dataset, prompt))
+llama_data = rename(llama_data, similarity_llama = similarity)
+
+agg_gpt_gemini = merge(gpt_data, gemini_data, by = c("id"), suffixes = c("_gpt", "_gemini"))
+agg_gpt_gemini_llama = merge(agg_gpt_gemini, llama_data, by = c("id"))
+
+
+
+
+agg_gpt_gemini_llama <- agg_gpt_gemini_llama %>%
+  gather(key = "llm", value = "similarity", similarity_gpt, similarity_gemini, similarity_llama)
+
+
+res.aov <- anova_test(data = agg_gpt_gemini_llama, dv = similarity, wid = id, within = llm)
+
+get_anova_table(res.aov)
+
+agg_gpt_gemini_llama %>%
+  pairwise_t_test(
+    similarity ~ llm, 
+    paired = TRUE,
+    p.adjust.method = "bonferroni"
+  )
+
+agg_gpt_gemini_llama %>%
+  cohens_d(similarity ~ llm, paired = TRUE)
+
+print("difference between gpt and gemini")
+print(t.test(agg_gpt_gemini$similarity_gpt, agg_gpt_gemini$similarity_gemini, paired = TRUE))
+print(cohen.d(agg_gpt_gemini$similarity_gpt, agg_gpt_gemini$similarity_gemini, paired = TRUE))
+
+
+print("difference between gemini and llama")
+print(t.test(agg_gemini_llama$similarity_gemini, agg_gemini_llama$similarity_llama, paired = TRUE))
+print(cohen.d(agg_gemini_llama$similarity_gemini, agg_gemini_llama$similarity_llama, paired = TRUE))
+
+############################################
+```

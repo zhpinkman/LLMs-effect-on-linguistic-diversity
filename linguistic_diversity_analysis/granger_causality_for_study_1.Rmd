@@ -1,0 +1,137 @@
+---
+title: "Granger Causality"
+output: html_notebook
+---
+
+
+```{r}
+
+library(dplyr)
+library(ggplot2)
+library(tidyr)
+library(tseries)
+library(vars)
+library(readr)
+library(lmtest)
+
+
+data_sources = c("papers", "reddit", "news")
+for (data_source_index in 1:length(data_sources)) {
+  data_source = data_sources[data_source_index]
+  
+  data = read_csv(paste(
+    "data",
+    "/",
+    data_source,
+    "/",
+    data_source,
+    "_final_features.csv",
+    sep = ""
+  ))
+  
+  colnames = c(
+    "similarity_voc_simpson_index",
+    "similarity_voc_shannon_entropy",
+    "similarity_lex_avg_dependency_link_length",
+    "similarity_voc_type_token_ratio",
+    "similarity_voc_hapax_legomena",
+    "complexity"
+  )
+  lags_list = c()
+  p_values = c()
+  p_values_reverse = c()
+  col_values = c()
+  for (col in colnames) {
+    data$date = as.Date(data$date)
+    
+    # sort the data based on date
+    data = data %>% arrange(date)
+    
+    # plot the complexity over the date
+    data %>% ggplot(aes(x = date, y = col)) +
+      geom_line() +
+      labs(title = "Feature over time", x = "Date", y = "Complexity")
+    
+    data %>% ggplot(aes(x = date, y = ai_written)) +
+      geom_line() +
+      labs(title = "AI written over time", x = "Date", y = "AI written")
+    
+    # check that the data would be stationary using the adf test
+    adf.test(data[[col]], alternative = "stationary")
+    
+    # check the autocorrelation and partial autocorrelation
+    # acf(data$complexity)
+    # pacf(data$complexity) # as far as the result goes, we only have to include the first lag
+    
+    # making the data stationary
+    adf.test(diff(data[[col]]), alternative = "stationary")
+    adf.test(diff(data$ai_written), alternative = "stationary")
+    
+    # plot the differenced version of both complexity and ai_written
+    diff_complexity = diff(data[[col]])
+    diff_ai_written = diff(data$ai_written)
+    new_date = data$date[-1]
+    
+    data_diff = data.frame(date = new_date, diff_complexity, diff_ai_written)
+    
+    # data_diff %>%
+    # ggplot(aes(x = date, y = diff_complexity)) +
+    # geom_line() +
+    # labs(title = "Differenced Feature over time", x = "Date", y = "Differenced Feature")
+    
+    # data_diff %>%
+    # ggplot(aes(x = date, y = diff_ai_written)) +
+    # geom_line() +
+    # labs(title = "Differenced AI written over time", x = "Date", y = "Differenced AI written")
+    
+    # check the correlation of the diff_ai_written and diff_complexity separately and also together
+    # remove the na values before checking the correlation
+    # acf(data_diff$diff_complexity)
+    # pacf(data_diff$diff_complexity)
+    
+    # acf(data_diff$diff_ai_written)
+    # pacf(data_diff$diff_ai_written)
+    
+    # it looks like that we only have lag 1 ai_written but not for complexity
+    # now let's check the correlation between the two using cross correlation, whether basically ai_written is granger causing complexity
+    # add the feature to the label of the plot for ccf(data_diff$diff_ai_written, data_diff$diff_complexity) 
+
+    # cc = ccf(data_diff$diff_ai_written, data_diff$diff_complexity)
+    # add the data source too
+    # plot(cc, main = paste("Cross-correlation between AI written and", col, "for", data_source))
+    # print(ccf(data_diff$diff_ai_written, data_diff$diff_complexity))
+    
+    # now let's do grangertest
+    # for multiple lags and store the results all in a dataframe to check in aggregate (for the first 20 lags)
+    for (i in 1:20) {
+      granger_result = grangertest(
+        data_diff$diff_complexity ~ data_diff$diff_ai_written,
+        order = i,
+        data = data_diff
+      )
+      lags_list = c(lags_list, i)
+      p_values = c(p_values, granger_result$`Pr(>F)`[[2]])
+      granger_result_2 = grangertest(
+        data_diff$diff_ai_written ~ data_diff$diff_complexity,
+        order = i,
+        data = data_diff
+      )
+      p_values_reverse = c(p_values_reverse, granger_result_2$`Pr(>F)`[[2]])
+      col_values = c(col_values, col)
+    }
+  }
+  granger_test_results = data.frame(lags_list, p_values, p_values_reverse, col_values)
+  # save the results in the granger test resutls {data_source}_granger_test_results.csv
+  write_csv(granger_test_results, paste(
+    "data",
+    "/",
+    data_source,
+    "/",
+    data_source,
+    "_granger_test_results.csv",
+    sep = ""
+  ))
+}
+
+```
+

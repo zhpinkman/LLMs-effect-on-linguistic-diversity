@@ -1,0 +1,49 @@
+# =============================================================================
+# Data files & proprietary lexicons — NOT redistributed in this repository.
+# See README.md → "Data availability" for instructions on obtaining each corpus
+# directly from its original source under the original investigators' terms.
+#
+# These rules ignore the data/lexicon directories RECURSIVELY (whole subtrees),
+# so nested files (e.g. facebook/with_dictionaries/*.csv) can never be added.
+# =============================================================================
+
+# ---- macOS / IDE ----
+.DS_Store
+.ipynb_checkpoints/
+__pycache__/
+*.pyc
+
+# ---- Study 1: arXiv / Reddit / Patch News corpora (whole subtrees) ----
+linguistic_diversity_analysis/data/papers/
+linguistic_diversity_analysis/data/reddit/
+linguistic_diversity_analysis/data/news/
+linguistic_diversity_analysis/data/*.csv
+linguistic_diversity_analysis/data/*.pkl
+linguistic_diversity_analysis/data/*.npy
+
+# ---- Study 2/3: per-dataset corpora + rewrites + embeddings (whole subtrees) ----
+linguistic_homogenization_social_impact/datasets/facebook/
+linguistic_homogenization_social_impact/datasets/political/
+linguistic_homogenization_social_impact/datasets/wassa/
+linguistic_homogenization_social_impact/datasets/essays/
+linguistic_homogenization_social_impact/datasets/*.csv
+linguistic_homogenization_social_impact/datasets/*.tsv
+linguistic_homogenization_social_impact/datasets/*.json
+linguistic_homogenization_social_impact/datasets/*.jsonl
+linguistic_homogenization_social_impact/datasets/*.joblib
+linguistic_homogenization_social_impact/datasets/*.pkl
+
+# ---- Predictive-model run artefacts (per-run prediction logs) ----
+linguistic_homogenization_social_impact/predictive_models/**/*_logs/
+linguistic_homogenization_social_impact/predictive_models/**/*_logs_individual/
+linguistic_homogenization_social_impact/predictive_models/*.csv
+linguistic_homogenization_social_impact/predictive_models/*.joblib
+linguistic_homogenization_social_impact/predictive_models/*.pkl
+
+# ---- Figures (rendered exports; figures live in the notebooks and the paper) ----
+linguistic_diversity_analysis/data/figures/
+linguistic_homogenization_social_impact/**/figures/
+
+# ---- Lexicons (proprietary or to be obtained from their original sources) ----
+linguistic_diversity_analysis/liwc_dictionary.dic
+linguistic_homogenization_social_impact/dictionaries/
